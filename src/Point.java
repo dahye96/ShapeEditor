@@ -1,25 +1,35 @@
+
 public class Point {
-    private int x;
-    private int y;
+    private float x;
+    private float y;
 
-    public Point(int x, int y){
+    public Point() { }
+
+    public Point(float x, float y){
         this.x = x;
         this.y = y;
     }
 
-    public int getX() {
-        return x;
-    }
+    public float getX() { return x; }
 
-    public void setX(int x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public int getY() {
-        return y;
+    public float getY() { return y; }
+
+    public void setY(float y) {
+        this.y = y;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public float getDistance(Point p) {
+        float deltaX = p.getX() - x;
+        float deltaY = p.getY() - y;
+
+        return (deltaX * deltaX) + (deltaY * deltaY);
+    }
+
+    public float getGradient(Point p) {
+        return (this.getY() - p.getY()) / (this.getX() - p.getX());
     }
 }
