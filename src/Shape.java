@@ -34,6 +34,9 @@ abstract class Shape implements Cloneable {
             clone = (Shape) super.clone();
             clone.setPosition(new Point(this.getPosition().getX() + 20, this.getPosition().getY() + 20));
             clone.setColor(new Color());
+            clone.setChangedInfo();
+
+            System.out.println("복제 도형 : " + clone.toString());
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }

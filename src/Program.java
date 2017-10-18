@@ -1,9 +1,6 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import processing.core.PApplet;
 
 import java.io.*;
@@ -37,10 +34,8 @@ public class Program extends PApplet{
         this.background(0);
         this.fill(233, 30, 99);
         this.rect(0,0, 799, Constant.DRAW_FIELD_BORDER);
-
         setButtons();
     }
-
 
     @Override
     public void draw() {
@@ -176,6 +171,28 @@ public class Program extends PApplet{
         this.text("triangle", 635, 93);
     }
 
+    public void removeAll() {
+        shapes.clear();
+    }
+
+    public void repaintBackground() {
+        setup();
+    }
+
+
+    public void makeShapes() {
+        Shape mkShape = null;
+        if (event.equals("cir")) {
+            mkShape = new Circle(clickedX, clickedY);
+        } else if (event.equals("rect")) {
+            mkShape = new Rect(clickedX, clickedY);
+        } else if (event.equals("tri")) {
+            mkShape = new Triangle(clickedX, clickedY);
+        }
+        shapes.add(mkShape);
+
+        System.out.println("생성 도형 : " + mkShape.toString());
+    }
 
     // gson 참고 사이트 ) http://www.javacreed.com/gson-typeadapter-example/
 
@@ -199,91 +216,8 @@ public class Program extends PApplet{
         shapes = gson.fromJson(br, type);
     }
 
-    public void removeAll() {
-        shapes.clear();
-    }
-
-    public void repaintBackground() {
-        setup();
-    }
-
-
-    public void makeShapes() {
-        if (event.equals("cir")) {
-            Circle circle = new Circle(clickedX, clickedY);
-            shapes.add(circle);
-        } else if (event.equals("rect")) {
-            Rect rect = new Rect(clickedX, clickedY);
-            shapes.add(rect);
-        } else if (event.equals("tri")) {
-            Triangle triangle = new Triangle(clickedX, clickedY);
-            shapes.add(triangle);
-        }
-    }
-
-
     public static void main(String[] args) {
         PApplet.main("Program");
     }
 
-
-}
-
-class ShapeTypeAdapter extends TypeAdapter<Shape> {
-
-    @Override
-    public void write(JsonWriter writer, Shape shape) throws IOException {
-        writer.beginObject();
-        writer.name("type").value(shape.getClass().getName());
-        writer.name("posX").value(shape.getPosition().getX());
-        writer.name("posY").value(shape.getPosition().getY());
-        writer.name("red").value(shape.getColor().getRandomRed());
-        writer.name("green").value(shape.getColor().getRandomGreen());
-        writer.name("blue").value(shape.getColor().getRandomBlue());
-        writer.endObject();
-    }
-
-    @Override
-    public Shape read(JsonReader reader) throws IOException {
-        reader.beginObject();
-
-        Shape shape = null;
-        while (reader.hasNext()) {
-            switch (reader.nextName()) {
-                case "type":
-                    String type = reader.nextString();
-                    if (type.equals("Rect"))
-                        shape = new Rect();
-                    else if (type.equals("Circle"))
-                        shape = new Circle();
-
-                    else if (type.equals("Triangle"))
-                        shape = new Triangle();
-                    break;
-                case "posX":
-                    if (shape != null)
-                        shape.getPosition().setX((float)reader.nextDouble());
-                    break;
-                case "posY":
-                    if (shape != null)
-                        shape.getPosition().setY((float)reader.nextDouble());
-                    break;
-                case "red":
-                    if (shape != null)
-                        shape.getColor().setRandomRed(reader.nextInt());
-                    break;
-                case "green":
-                    if (shape != null)
-                        shape.getColor().setRandomGreen(reader.nextInt());
-                    break;
-                case "blue":
-                    if (shape != null)
-                        shape.getColor().setRandomBlue(reader.nextInt());
-                    break;
-            }
-        }
-
-        reader.endObject();
-        return shape;
-    }
 }

@@ -32,4 +32,12 @@ public class Point {
     public float getGradient(Point p) {
         return (this.getY() - p.getY()) / (this.getX() - p.getX());
     }
+
+    @Override
+    public String toString() {
+        return "Point{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

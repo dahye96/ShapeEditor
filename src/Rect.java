@@ -61,4 +61,16 @@ class Rect extends Shape {
     boolean checkCollision(float x, float y) {
         return x > start_point.getX() && x < end_point.getX() && y > start_point.getY() && y < end_point.getY();
     }
+
+    @Override
+    public String toString() {
+        return "Rect{" +
+                "width=" + width +
+                ", height=" + height +
+                ", start_point=" + start_point +
+                ", end_point=" + end_point +
+                ", color=" + color +
+                ", position=" + position +
+                '}';
+    }
 }

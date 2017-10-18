@@ -89,4 +89,15 @@ public class Triangle extends Shape {
 
         return collided;
     }
+
+    @Override
+    public String toString() {
+        return "Triangle{" +
+                "first_point=" + first_point +
+                ", second_point=" + second_point +
+                ", third_point=" + third_point +
+                ", color=" + color +
+                ", position=" + position +
+                '}';
+    }
 }
